@@ -32,11 +32,7 @@ convertCSV_to_JSON :: [String]->[String]->[[String]]->JValue
 convertCSV_to_JSON nombreColumnas tiposDatos columnas = JArray(funcMapJObject( map (func nombreColumnas tiposDatos) columnas) )
 
 
---FUNCIÓN PARA HACER JOIN DE JSONs
-
-
-
-
+ -- *******************************************************************
 loadCSV_to_JSON :: String -> IO JValue
 loadCSV_to_JSON fileName = do
        --Leer el archivo
@@ -56,9 +52,18 @@ loadCSV_to_JSON fileName = do
 
        return (json)
 
-main  = do
-       jsonObject <- loadCSV_to_JSON "hola.csv"
+-- **********************************************************************
+conv :: String->String->IO()
+conv fileCSV fileJSON = do
 
-       putJValue (jsonObject) 
+       jsonObject <- loadCSV_to_JSON (fileCSV)
 
-       print $ jsonObject
+       outh <- openFile fileJSON WriteMode
+
+       let json = renderJValue (jsonObject)
+
+       hPutStr outh json
+
+       hClose outh
+
+
