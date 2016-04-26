@@ -54,6 +54,9 @@ loadCSV_to_JSON fileName = do
        return (json)
 
 
+
+
+
 main :: IO()
 main = do 
     --Leer el archivo
