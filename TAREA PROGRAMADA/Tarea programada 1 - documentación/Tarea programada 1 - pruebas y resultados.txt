@@ -1,0 +1,131 @@
+LOS RESULTADOS HAN SIDO FORMATEADOS PARA MAYOR LEGIBILIDAD.
+NO SE REQUIERE OBTENER EL FORMATO EXACTO NI EL MISMO ORDEN.
+
+
+Prueba 0a
+Usar el programa conv:
+   *> conv ./Equipos.csv pru0a.json
+El resultado debe ser:
+[
+{ "equipo":"Equipo A", "pais":"CRI", "alojamiento":"Edificio A1", "mejor marca":3.08 },
+{ "equipo":"Equipo B", "pais":"COL", "alojamiento":"Edificio A2", "mejor marca":2.40 },
+{ "equipo":"Equipo C", "pais":"CUB", "alojamiento":"Edificio A2", "mejor marca":2.20 },
+{ "equipo":"Equipo D", "pais":"DOM", "alojamiento":"Edificio A1", "mejor marca":3.15 },
+{ "equipo":"Equipo E", "pais":"ECU", "alojamiento":"Edificio A1", "mejor marca":2.75 }
+]
+
+Prueba 0b
+Usar el programa conv:
+   *> conv ./Integrantes.csv pru0b.json
+El resultado debe ser:
+[
+{ "equipo":"Equipo A", "nombre":"Berta",    "apellidos":"Bermúdez", "fechaNac":"02/02/1997", "primeraVez":true  },
+{ "equipo":"Equipo D", "nombre":"Jimena",   "apellidos":"Jiménez",  "fechaNac":"08/08/1996", "primeraVez":true  },
+{ "equipo":"Equipo B", "nombre":"Dora",     "apellidos":"Domec",    "fechaNac":"04/04/1995", "primeraVez":false },
+{ "equipo":"Equipo C", "nombre":"Eugenia",  "apellidos":"Esquivel", "fechaNac":"05/05/1999", "primeraVez":true  },
+{ "equipo":"Equipo B", "nombre":"Carmen",   "apellidos":"Carmona",  "fechaNac":"03/03/1996", "primeraVez":true  },
+{ "equipo":"Equipo E", "nombre":"Jimena",   "apellidos":"Jiménez",  "fechaNac":"08/08/1996", "primeraVez":false },
+{ "equipo":"Equipo D", "nombre":"Gabriela", "apellidos":"García",   "fechaNac":"07/07/1997", "primeraVez":true  },
+{ "equipo":"Equipo A", "nombre":"Ana",      "apellidos":"Abarca",   "fechaNac":"01/01/1998", "primeraVez":false },
+{ "equipo":"Equipo C", "nombre":"Francela", "apellidos":"Franco",   "fechaNac":"06/06/1998", "primeraVez":true  },
+{ "equipo":"Equipo E", "nombre":"Gabriela", "apellidos":"García",   "fechaNac":"07/07/1997", "primeraVez":true  },
+]
+
+Prueba 0c
+Usar el programa join:
+   *> join ./Equipos.csv ./Integrantes.csv equipo pru0c.json
+El resultado debe ser:
+[
+{ "1.equipo":"Equipo A", "1.pais":"CRI", "1.alojamiento":"Edificio A1", "1.mejor marca":3.08, "2.equipo":"Equipo A", "2.nombre":"Berta",    "2.apellidos":"Bermúdez", "2.fechaNac":"02/02/1997", "2.primeraVez":true  },
+{ "1.equipo":"Equipo A", "1.pais":"CRI", "1.alojamiento":"Edificio A1", "1.mejor marca":3.08, "2.equipo":"Equipo A", "2.nombre":"Ana",      "2.apellidos":"Abarca",   "2.fechaNac":"01/01/1998", "2.primeraVez":false },
+{ "1.equipo":"Equipo B", "1.pais":"COL", "1.alojamiento":"Edificio A2", "1.mejor marca":2.40, "2.equipo":"Equipo B", "2.nombre":"Dora",     "2.apellidos":"Domec",    "2.fechaNac":"04/04/1995", "2.primeraVez":false },
+{ "1.equipo":"Equipo B", "1.pais":"COL", "1.alojamiento":"Edificio A2", "1.mejor marca":2.40, "2.equipo":"Equipo B", "2.nombre":"Carmen",   "2.apellidos":"Carmona",  "2.fechaNac":"03/03/1996", "2.primeraVez":true  },
+{ "1.equipo":"Equipo C", "1.pais":"CUB", "1.alojamiento":"Edificio A2", "1.mejor marca":2.20, "2.equipo":"Equipo C", "2.nombre":"Eugenia",  "2.apellidos":"Esquivel", "2.fechaNac":"05/05/1999", "2.primeraVez":true  },
+{ "1.equipo":"Equipo C", "1.pais":"CUB", "1.alojamiento":"Edificio A2", "1.mejor marca":2.20, "2.equipo":"Equipo C", "2.nombre":"Francela", "2.apellidos":"Franco",   "2.fechaNac":"06/06/1998", "2.primeraVez":true  },
+{ "1.equipo":"Equipo D", "1.pais":"DOM", "1.alojamiento":"Edificio A1", "1.mejor marca":3.15, "2.equipo":"Equipo D", "2.nombre":"Jimena",   "2.apellidos":"Jiménez",  "2.fechaNac":"08/08/1996", "2.primeraVez":true  },
+{ "1.equipo":"Equipo D", "1.pais":"DOM", "1.alojamiento":"Edificio A1", "1.mejor marca":3.15, "2.equipo":"Equipo D", "2.nombre":"Gabriela", "2.apellidos":"García",   "2.fechaNac":"07/07/1997", "2.primeraVez":true  },
+{ "1.equipo":"Equipo E", "1.pais":"ECU", "1.alojamiento":"Edificio A1", "1.mejor marca":2.75, "2.equipo":"Equipo E", "2.nombre":"Jimena",   "2.apellidos":"Jiménez",  "2.fechaNac":"08/08/1996", "2.primeraVez":false },
+{ "1.equipo":"Equipo E", "1.pais":"ECU", "1.alojamiento":"Edificio A1", "1.mejor marca":2.75, "2.equipo":"Equipo E", "2.nombre":"Gabriela", "2.apellidos":"García",   "2.fechaNac":"07/07/1997", "2.primeraVez":true  }
+]
+
+
+Prueba 1a
+Usar el programa conv:
+   *> conv ./R1.csv pru1a.json
+El resultado debe ser:
+
+[
+{ "A":"a1", "B": true,  "C":4.0 },
+{ "A":"a2", "B": false, "C":2.0 },
+{ "A":"a3", "B": false, "C":3.0 },
+{ "A":"a4", "B": true,  "C":4.0 }
+]
+
+
+Prueba 1b
+Usar el programa conv:
+   *> conv ./R2.csv pru1b.json
+El resultado debe ser:
+
+[
+{ "C":2.0, "E": true,  "F":"azul",   "H":"no" },
+{ "C":2.0, "E": false, "F":"blanco", "H":"se" },
+{ "C":3.0, "E": true,  "F":"rojo",   "H":"se" },
+{ "C":4.0, "E": false, "F":"azul",   "H":"so" }
+]
+
+
+Prueba 1c
+Usar el programa conv:
+   *> conv ./R3.csv pru1c.json
+El resultado debe ser:
+
+[
+{ "2.H":"no", "I":"uno"   },
+{ "2.H":"se", "I":"dos-a" },
+{ "2.H":"se", "I":"dos-b" },
+{ "2.H":"so", "I":"tres"  }
+]
+
+
+Prueba 2
+Usar el programa join:
+   *> join ./R1.csv ./R2.csv C pru2.json
+
+[
+{ "1.A":"a1", "1.B": true,  "1.C":4.0, "2.C":4.0, "2.E": false, "2.F":"azul",   "2.H":"so" },
+{ "1.A":"a2", "1.B": false, "1.C":2.0, "2.C":2.0, "2.E": true,  "2.F":"azul",   "2.H":"no" },
+{ "1.A":"a2", "1.B": false, "1.C":2.0, "2.C":2.0, "2.E": false, "2.F":"blanco", "2.H":"se" },
+{ "1.A":"a3", "1.B": false, "1.C":3.0, "2.C":3.0, "2.E": true,  "2.F":"rojo",   "2.H":"se" },
+{ "1.A":"a4", "1.B": true,  "1.C":4.0, "2.C":4.0, "2.E": false, "2.F":"azul",   "2.H":"so" }
+]
+
+
+Prueba 3
+Usar el programa iterativo:
+   *> load js1 ./R1.csv
+   *> load js2 ./R2.csv
+   *> join js1 js2 C js12
+   *> save js12 ./pru3.js12.json
+           -- debe obtener el mismo resultado de prueba 2 (pru2.json)
+   *> load js3 ./R3.csv
+   *> join js12 js3 2.H js123
+   *> save js123 ./pru3.js123.json
+           -- debe obtener el resultado que se incluye a continuación
+   *> exit
+
+El resultado para ./pru3.js123.json debe ser:
+
+[
+{ "1.1.A":"a1", "1.1.B": true,  "1.1.C":4.0, "1.2.C":4.0, "1.2.E": false, "1.2.F":"azul",   "1.2.H":"so", "2.2.H":"so", "2.I":"tres"  },
+{ "1.1.A":"a2", "1.1.B": false, "1.1.C":2.0, "1.2.C":2.0, "1.2.E": true,  "1.2.F":"azul",   "1.2.H":"no", "2.2.H":"no", "2.I":"uno"   },
+{ "1.1.A":"a2", "1.1.B": false, "1.1.C":2.0, "1.2.C":2.0, "1.2.E": false, "1.2.F":"blanco", "1.2.H":"se", "2.2.H":"se", "2.I":"dos-a" },
+{ "1.1.A":"a2", "1.1.B": false, "1.1.C":2.0, "1.2.C":2.0, "1.2.E": false, "1.2.F":"blanco", "1.2.H":"se", "2.2.H":"se", "2.I":"dos-b" },
+{ "1.1.A":"a3", "1.1.B": false, "1.1.C":3.0, "1.2.C":3.0, "1.2.E": true,  "1.2.F":"rojo",   "1.2.H":"se", "2.2.H":"se", "2.I":"dos-a" },
+{ "1.1.A":"a3", "1.1.B": false, "1.1.C":3.0, "1.2.C":3.0, "1.2.E": true,  "1.2.F":"rojo",   "1.2.H":"se", "2.2.H":"se", "2.I":"dos-b" },
+{ "1.1.A":"a4", "1.1.B": true,  "1.1.C":4.0, "1.2.C":4.0, "1.2.E": false, "1.2.F":"azul",   "1.2.H":"so", "2.2.H":"so", "2.I":"tres"  }
+]
+
+
+
+

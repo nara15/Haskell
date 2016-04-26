@@ -9,6 +9,6 @@ leerArchivo fileName = do
        return (inpStr)
 
 main  = do
-       str <- leerArchivo "Equipos.csv"
+       str <- leerArchivo "R1.csv"
 
        print $ str

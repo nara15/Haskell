@@ -4,6 +4,7 @@ import SimpleJSON
 
 import System.IO
 import  Data.List.Split
+import Data.List
 
 import Data.Maybe
 
@@ -52,12 +53,42 @@ loadCSV_to_JSON fileName = do
 
        return (json)
 
+
+main :: IO()
+main = do 
+    --Leer el archivo
+    inh <- openFile "R2.csv" ReadMode
+    inpStr <- hGetContents inh
+    --Obteniendo el nombre de las columnas y tos tipos de las columnas
+    let archivoList = splitOn "\n" inpStr
+    let nombreColumnas = splitOn ";" (archivoList !! 0)
+    let tiposColumnas = splitOn ";" (archivoList !! 1)
+    --Obteniendo las filas
+    let filasAux = snd (splitAt 2 archivoList)
+    let filas = init (map (splitOn ";") filasAux)
+
+    print $ nombreColumnas
+    print $ elemIndex "C" nombreColumnas
+    print $ filas
+
+
+      
+
+
+
+
+
+
+
+
+
+
 -- **********************************************************************
 conv :: String->String->IO()
 conv fileCSV fileJSON = do
 
        jsonObject <- loadCSV_to_JSON (fileCSV)
-
+       
        outh <- openFile fileJSON WriteMode
 
        let json = renderJValue (jsonObject)
@@ -66,4 +97,14 @@ conv fileCSV fileJSON = do
 
        hClose outh
 
+
+
+
+
+join :: IO()
+join = do
+       jsonObject <- loadCSV_to_JSON ("R1.csv")
+       let arrayJObjects = fromJust (getArray jsonObject)
+
+       print $ arrayJObjects
 
