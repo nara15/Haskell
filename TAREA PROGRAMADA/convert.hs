@@ -58,8 +58,7 @@ loadCSV_to_JSON fileName = do
 
       let json = convertCSV_to_JSON nombreColumnas tiposColumnas filas
 
-      
-
+    
       return (json)
 
 
@@ -85,7 +84,7 @@ joinJSON [] _ lista2 _ = []
 joinJSON (lista1 : resto1) index1 lista2 index2 = (joinRowToRows lista1 index1 lista2 index2) ++ joinJSON (resto1) (index1) (lista2) (index2)
 
 --Función que actualiza las columnas o llaves del json
-updateKey ::  [Char] -> [([Char], JValue)] ->  [([Char], JValue)]
+updateKey :: (Eq a) =>  [b] -> [([b], a)] ->  [([b], a)]
 updateKey _ [] = []
 updateKey key (x : xs) = [(key ++ (fst x), snd x)] ++ updateKey key xs
 
@@ -139,7 +138,12 @@ join rutaEntrada1 rutaEntrada2 atributoComun fileJSON = do
        index1 <- getIndexof atributoComun rutaEntrada1
        index2 <- getIndexof atributoComun rutaEntrada2
 
-       let json = JArray (funcMapJObject (joinJSON objectTuples1 index1 objectTuples2 index2))
+       let joinedJSON = joinJSON objectTuples1 index1 objectTuples2 index2
+
+       let hola = map (updateKey "1.") joinedJSON
+       print hola
+
+       let json = JArray (funcMapJObject (joinedJSON))
 
        outh <- openFile fileJSON WriteMode
 
@@ -150,6 +154,61 @@ join rutaEntrada1 rutaEntrada2 atributoComun fileJSON = do
        hClose outh
 
 
--- CICLO DE EJECUCIÓN
+-- CICLO DE EJECUCIÓN ------------------------------
 
-type Estado = [(String, String)]
+type Estado = [(String, JValue)]
+
+
+main :: IO()
+main = do
+  mainloop []
+
+mainloop :: Estado -> IO()
+mainloop estado = do
+  putStr ":>>  "
+  inpStr <- getLine
+  (terminar, nuevoestado, salida) <- procesar inpStr estado
+  putStrLn salida
+  if terminar
+    then return()
+    else mainloop nuevoestado
+
+
+procesar :: String -> Estado -> IO(Bool, Estado, String)
+procesar comando estado =
+  case tokens!!0 of 
+    "exit" -> return (True, estado, "saliendo")
+    "load" -> cmd_load (tail tokens) estado
+    "save" -> return (cmd_save (tail tokens) estado)
+    where tokens = words comando
+
+{-
+cmd_define :: (Eq a) => [a] -> Estado -> (Bool, Estado, String)
+cmd_define tokens estado = (False, nuevoestado, mensaje) 
+            where nuevoestado = estado ++ [(tokens!!0, tokens!!1)]
+                  mensaje = "Definido" ++ tokens!!0
+-}
+
+
+
+cmd_define :: [(String, JValue)] -> Estado -> (Bool, Estado, String)
+cmd_define tokens estado = (False, nuevoestado, mensaje)
+        where nuevoestado = estado ++ tokens
+              mensaje = "Definido"
+
+cmd_load :: [String] -> Estado -> IO (Bool, Estado, String)
+cmd_load  (v : r : []) estado = do
+  jsonObject <- loadCSV_to_JSON (r)
+  let (terminar, estado, mensaje) = cmd_define [(v, jsonObject)] estado
+  return (terminar, estado, mensaje)
+
+
+cmd_save :: [String] -> Estado -> (Bool, Estado, String)
+cmd_save [] estado = (False, estado, "No se especificó qué escribir") 
+cmd_save (v : _) estado = let (res, nuevoestado) = save v estado
+                          in if res
+                            then (False, nuevoestado, "borrado")
+                            else (False, estado, "NO estaba Definido")
+
+save :: String -> Estado -> (Bool, Estado)
+save _ [] = (False, [])

@@ -9,7 +9,7 @@ main = do
 
 mainloop :: Estado -> IO ()
 mainloop estado = do
-    putStr ">> "
+    putStr ":>>    "
     inpStr <- getLine
     (terminar,nuevoestado,salida) <- procesar inpStr estado
     putStrLn salida
@@ -70,6 +70,5 @@ cmd_leer (v:r:[]) estado = do
      linea <- hGetLine inh
      hClose inh
      return (cmd_def [v,linea] estado) 
-     --return (False, estado, "Se intenta definir: " ++ v ++ "= contenido("++ r ++ ")")
 cmd_leer _ estado = return (False, estado, "Insuficentes parametros para leer")
      
