@@ -150,3 +150,6 @@ join rutaEntrada1 rutaEntrada2 atributoComun fileJSON = do
        hClose outh
 
 
+-- CICLO DE EJECUCIÓN
+
+type Estado = [(String, String)]
