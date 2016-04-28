@@ -140,9 +140,7 @@ join rutaEntrada1 rutaEntrada2 atributoComun fileJSON = do
 
        let joinedJSON = joinJSON objectTuples1 index1 objectTuples2 index2
 
-       let hola = map (updateKey "1.") joinedJSON
-       print hola
-
+      
        let json = JArray (funcMapJObject (joinedJSON))
 
        outh <- openFile fileJSON WriteMode
@@ -154,61 +152,100 @@ join rutaEntrada1 rutaEntrada2 atributoComun fileJSON = do
        hClose outh
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 -- CICLO DE EJECUCIÓN ------------------------------
 
-type Estado = [(String, JValue)]
 
 
-main :: IO()
-main = do
-  mainloop []
+type Estado = [(String,JValue)]
 
-mainloop :: Estado -> IO()
+main :: IO ()
+main = do 
+       mainloop []
+
+mainloop :: Estado -> IO ()
 mainloop estado = do
-  putStr ":>>  "
-  inpStr <- getLine
-  (terminar, nuevoestado, salida) <- procesar inpStr estado
-  putStrLn salida
-  if terminar
-    then return()
-    else mainloop nuevoestado
+    putStr ":/>> .... "
+    inpStr <- getLine
+    (terminar,nuevoestado,salida) <- procesar inpStr estado
+    putStrLn salida
+    if terminar
+       then return ()
+       else mainloop nuevoestado
 
-
-procesar :: String -> Estado -> IO(Bool, Estado, String)
+procesar :: String -> Estado -> IO (Bool, Estado, String)
 procesar comando estado =
-  case tokens!!0 of 
-    "exit" -> return (True, estado, "saliendo")
-    "load" -> cmd_load (tail tokens) estado
-    "save" -> return (cmd_save (tail tokens) estado)
-    where tokens = words comando
+     case tokens!!0 of
+          "load"   -> cmd_leer (tail tokens) estado
+          "save" -> cmd_escribir (tail tokens) estado
+          "imp"    -> return (cmd_imp estado) 
+          "exit"    -> return (True, estado, "Saliendo...")
+          _        -> return (cmd_desconocido (tokens!!0) comando estado)
+       where tokens = words comando
 
-{-
-cmd_define :: (Eq a) => [a] -> Estado -> (Bool, Estado, String)
-cmd_define tokens estado = (False, nuevoestado, mensaje) 
-            where nuevoestado = estado ++ [(tokens!!0, tokens!!1)]
-                  mensaje = "Definido" ++ tokens!!0
--}
-
-
-
+  
 cmd_define :: [(String, JValue)] -> Estado -> (Bool, Estado, String)
 cmd_define tokens estado = (False, nuevoestado, mensaje)
         where nuevoestado = estado ++ tokens
-              mensaje = "Definido"
+              mensaje = "Definido " -- ++ fst(estado!!0)
 
-cmd_load :: [String] -> Estado -> IO (Bool, Estado, String)
-cmd_load  (v : r : []) estado = do
+
+cmd_desconocido :: String -> String -> Estado -> (Bool, Estado, String)
+cmd_desconocido cmd comando estado = (False, estado, mensaje)
+       where mensaje = "Comando desconocido ("++ cmd ++"): '" ++ comando ++ "'"
+
+
+
+cmd_imp :: Estado -> (Bool, Estado, String)
+cmd_imp estado = (False, estado, show estado)
+
+cmd_fin :: Estado -> (Bool, Estado, String)
+cmd_fin estado = (False, estado, show estado)
+
+
+
+buscar :: String -> Estado -> (Bool, JValue)
+buscar _ [] = (False, JNull)
+buscar v1 ((v2,y):estado) = if v1 == v2
+                               then  (True,y)
+                               else  buscar v1 estado
+
+
+cmd_escribir :: [String] -> Estado -> IO(Bool, Estado, String)
+cmd_escribir (v : rutaSalida : [])  estado = do
+  let (res, valor) = buscar v estado
+
+  outh <- openFile rutaSalida WriteMode
+
+  let json = renderJValue (valor)
+
+  hPutStr outh json
+  hClose outh
+
+  return (False, estado, "Guardado en " ++ rutaSalida)
+
+
+
+
+cmd_leer :: [String] -> Estado -> IO (Bool, Estado, String)
+cmd_leer (v:r:[]) estado = do
+
   jsonObject <- loadCSV_to_JSON (r)
-  let (terminar, estado, mensaje) = cmd_define [(v, jsonObject)] estado
-  return (terminar, estado, mensaje)
-
-
-cmd_save :: [String] -> Estado -> (Bool, Estado, String)
-cmd_save [] estado = (False, estado, "No se especificó qué escribir") 
-cmd_save (v : _) estado = let (res, nuevoestado) = save v estado
-                          in if res
-                            then (False, nuevoestado, "borrado")
-                            else (False, estado, "NO estaba Definido")
-
-save :: String -> Estado -> (Bool, Estado)
-save _ [] = (False, [])
+ 
+  return (cmd_define [(v, jsonObject)] estado)
+cmd_leer _ estado = return (False, estado, "Insuficentes parametros para leer el archivo")

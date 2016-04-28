@@ -1,1 +1,1 @@
-[{"A": "a1", "B": true, "C": 4.0, "C": 4.0, "E": false, "F": "azul", "H": "so"}, {"A": "a2", "B": false, "C": 2.0, "C": 2.0, "E": true, "F": "azul", "H": "no"}, {"A": "a2", "B": false, "C": 2.0, "C": 2.0, "E": false, "F": "blanco", "H": "se"}, {"A": "a3", "B": false, "C": 3.0, "C": 3.0, "E": true, "F": "rojo", "H": "se"}, {"A": "a4", "B": true, "C": 4.0, "C": 4.0, "E": false, "F": "azul", "H": "so"}]
+[{"A": "a1", "B": true, "C": 4.0}, {"A": "a2", "B": false, "C": 2.0}, {"A": "a3", "B": false, "C": 3.0}, {"A": "a4", "B": true, "C": 4.0}]
